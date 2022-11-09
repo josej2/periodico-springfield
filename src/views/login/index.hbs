@@ -8,7 +8,7 @@
         <div class="text-center"><!--centrar texto-->
             
 
-            <div id="caja-contenedor">
+            <div class="caja-contenedor">
                 <h2 class="metodo-2">LOGIN</h2>
                 <form  id="formulario" action="/login" method="post">
                     <div class="camposnegros" class="controlador-3">
@@ -16,15 +16,14 @@
                         <input type="text" name="usuario" class="form-text text-muted" id="campo-usuario" autofocus required>
                     </div>
 
-                    <div id="contenedor-contraseña" class="camposnegros" class="controlador-3">
+                    <div class="camposnegros contenedor-contraseña" class="controlador-3">
                         <label for="password" class="form-label" id="labelpassword">contraseña :</label>
-                        <input type="password" name="contraseña" class="form-text text-muted" id="campo-contraseña" pattern="[A-Za-z0-9]{8,15}" title="La contraseña debe contener al menos 8 caracteredes ademas de contener solo letras, numeros o ambos" required>
+                        <input id="campo_contraseña" type="password" name="contraseña" class="form-text text-muted campo-contraseña" pattern="[A-Za-z0-9]{8,15}" title="La contraseña debe contener al menos 8 caracteredes ademas de contener solo letras, numeros o ambos" required>
                         <img src="/img/ojo_abierto.png" class="ojo" id="ojo">
                     </div>
 
                     <div>
-                        <select id="select_tipo_usuario" name="tipoLogin" id="tipoLogin" class="btn btn-outline-secondary">
-                            <option value=""></option>
+                        <select id="select_tipo_usuario" name="tipoLogin" id="tipoLogin" class="btn btn-outline-secondary"> 
                             <option value="administrador">Administrador</option>
                             <option value="columnista">Columnista</option>
                         </select>
@@ -41,7 +40,7 @@
 
 <script type="text/javascript">
     let ojo =document.getElementById('ojo');
-    let campopass = document.getElementById('campo-contraseña');
+    let campopass = document.getElementById('campo_contraseña');
 
     ojo.addEventListener("click", function (){
         if(campopass.type == "password"){

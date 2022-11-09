@@ -84,13 +84,19 @@ rutas.post('/login',estalogeado,
             res.redirect('/trampa')
         }
         else{
-            passport.authenticate('login-administrador', {
-                successRedirect : '/vista-admin',
-                failureRedirect : '/no-encontrado',
-                failureFlash: true
-            })(req, res, next);
-        }
 
+            console.log(req.body.tipoLogin);
+            if(req.body.tipoLogin =="administrador"){   
+                passport.authenticate('login-administrador', {
+                    successRedirect : '/vista-admin',
+                    failureRedirect : '/no-encontrado',
+                    failureFlash: true
+                })(req, res, next);
+            }
+            else if(req.body.tipoLogin =="columnista"){
+                res.send("modulo en produccion")
+            }
+        }
     }
 )
 

@@ -4,38 +4,67 @@
         </div>
     </header>
     <div class="contenedor">
-        <div class="text-center"><!--centrar texto-->
-            <h3 class="mt-2">Crear Administrador</h3>
-            <form action="/agregar-admin" method="post">
-                <div class="mt-3">
-                    <label for="nombre" class="form-label">Nombre 
-                    <input name="nombre" type="text" class="form-text text-muted" id="nombre" placeholder="Nombre"> *</label>    
-                </div>
-                <div class="mt-3">
-                    <label for="apellido" class="form-label">Apellido 
-                    <input name="apellidos" type="text" class="form-text text-muted" id="apellido" placeholder="Apellido"> *</label>
-                </div>
-                <div class="mt-3">
-                    <label for="correo" class="form-label">Email 
-                    <input name="correo" type="email" class="form-text text-muted" id="correo" placeholder="name@examples.com.co"> *</label>
-                </div>
-                <div class="mt-3">
-                    <label for="usuario" class="form-label">Usuario 
-                    <input name="usuario" type="usuario" class="form-text text-muted" id="usuario" placeholder="emontilla"> *</label>
-                </div>
-                <div class="mt-3">
-                    <label for="password" class="form-label">Password 
-                    <input name="password" type="password" class="form-text text-muted" id="password" placeholder="Password"> *</label>
-                </div>
-                <div class="mt-3">
-                    <label for="password" class="form-label">Confirmar Contraseña 
-                    <input name="password-confirmacion" type="password" class="form-text text-muted" id="password-confirmacion" placeholder="Confirmar Password"> *</label>
-                </div>
-                <div class="mb-3">
-                    <button>crear cuenta</button>
-                </div>
+        <div  class="text-center"><!--centrar texto-->
+
+            <div class="caja-contenedor">
+                 <h3 class="mt-2">Crear Administrador</h3>
+                <form action="/agregar-admin" method="post">
+                    <div class="camposnegros" class="mt-3" >
+                        <label for="nombre" class="form-label">Nombre 
+                        <input name="nombre" type="text" class="form-text text-muted" id="nombre"  pattern="[a-zA-Z ]{3,60}"  autofocus required title="Dudo que seas el hijo de elon musk (tus nombre solo debe contener letras y espacios)"> *</label>    
+                    </div>
+                    <div class="camposnegros" class="mt-3">
+                        <label for="apellido" class="form-label">Apellido 
+                        <input name="apellidos" type="text" class="form-text text-muted" id="apellido"  pattern="[a-zA-Z ]{3,60}" required title="Dudo que seas el hijo de elon musk (tus apellidos solo debe contener letras y espacios)"> *</label>
+                    </div>
+                    <div class="camposnegros" class="mt-3">
+                        <label for="correo" class="form-label">Email 
+                        <input name="correo" type="email" class="form-text text-muted" id="correo" placeholder="name@examples.com.co"> *</label  autofocus required title="">
+                    </div>
+                    <div class="camposnegros" class="mt-3">
+                        <label for="usuario" class="form-label">Usuario 
+                        <input name="usuario" type="usuario" class="form-text text-muted" id="usuario"  required> *</label>
+                    </div>
+                    <div class="contenedor-contraseña camposnegros" class="mt-3">
+                        <label for="password" class="form-label">Password *</label>
+                        <input  class="campo-contraseña" name="password" type="password" class="form-text text-muted" id="password"  pattern="[A-Za-z0-9]{8,15}" title="La contraseña debe contener al menos 8 caracteredes ademas de contener solo letras, numeros o ambos" required> 
+                        <img src="/img/ojo_abierto.png" class="ojo" id="ojo-contraseña-admin">
+                        
+                        
+                    </div>
+                    <div class="contenedor-contraseña camposnegros"  class="mt-3">
+                        <label for="password" class="form-label">Confirmar Contraseña *</label>
+                        <input  class="campo-contraseña" name="password-confirmacion" type="password" class="form-text text-muted" id="password-confirmacion"  pattern="[A-Za-z0-9]{8,15}" title="La contraseña debe contener al menos 8 caracteredes ademas de contener solo letras, numeros o ambos" required> 
+                        <img src="/img/ojo_abierto.png" class="ojo" id="ojo-confirmacion-admin">
+                        
+                    </div>
+                    <div class="camposnegros" class="mb-3">
+                        <button>crear cuenta</button>
+                    </div>
             </form>
 
+
+            </div>
+
+           
         </div>
 
     </div>
+
+
+
+<script type="text/javascript">
+    let ojo =document.getElementById('ojo');
+    let campopass = document.getElementById('campo-contraseña');
+
+    ojo.addEventListener("click", function (){
+        if(campopass.type == "password"){
+            campopass.type = "Text"; 
+            ojo.src = '/img/ojo_cerrado.png'
+        }
+        else{
+            campopass.type = "password";
+            ojo.src = '/img/ojo_abierto.png' 
+        }
+    })
+</script>
