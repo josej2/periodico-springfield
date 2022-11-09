@@ -64,12 +64,12 @@ passport.use('login-administrador', new strategy
         },
         async ( req, usuario, contraseña, done) => {
 
-            const arrayconsultas = await conexionmysql.query('select * from administradores where usuario =?',[usuario]);
+            const arrayconsultas = await conexionmysql.query('select * from administradores where usuario =?',[usuario.trim()]);
             
             if( arrayconsultas.length > 0){
                 const admin = arrayconsultas[0];
 
-                const usuariovalido = await encriptador.comparadorpassword(contraseña, admin.contraseña)
+                const usuariovalido = await encriptador.comparadorpassword(contraseña.trim(), admin.contraseña)
                 if(usuariovalido){
                     console.log("usuario y contraseña encontrados"+admin.id);
                     return done(null,admin) 
