@@ -1,0 +1,133 @@
+body{
+    font-family: 'IBM Plex Sans';
+    margin: 0;
+}
+nav a{
+    font-weight: 600;
+    padding-right: 10px;
+}
+nav a:hover{
+    color: aliceblue;
+}
+#titulo{
+    color: aliceblue;
+}
+a{
+    text-decoration: none;
+}
+header{
+    display: flex;
+    min-height: 70px;
+    background-color: black;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+.logo{
+    display: flex;
+    align-items: center;
+}
+img{
+   width: 18px; 
+   height: 18px;
+}
+/*.contenedor{
+    position: relative;
+    text-align: justify;
+    width: 350px;
+    height: 50px;
+    left: 630px;
+    top: 0;
+}*/
+
+@media(max-width:700px){
+    header{
+        flex-direction: column;
+    }
+    nav{
+        padding: 10px 0px;
+    }
+}
+.text-center {
+    text-align: center;
+}
+
+#caja-contenedor {
+    margin: 0px auto;
+    margin-top: 80px;
+}
+
+#caja-contenedor h2 {
+    font-weight: bold;
+    font-size: 40px;
+    padding-left: 120px;
+}
+
+.camposnegros input{
+    background-color: black;
+    /*background-color: white;*/
+    height: 35px;
+    width: 250px;
+    color: aliceblue;
+    font-size: 30px;
+}
+
+.camposnegros {
+    margin: 20px;
+}
+
+.camposnegros label {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+#labelpassword {
+    margin-right: 20px;
+}
+
+#labelusuario {
+    margin-right: 20px;
+    margin-left: 33px;
+}
+
+#select_tipo_usuario {
+    height: 40px;
+    font-size: 30px;
+    margin-left: 130px;
+    margin-bottom: 130px;
+}
+#caja-contenedor button {
+    background-color: black;
+    color: aliceblue;
+    height: 35px;
+    width: 200px;
+    font-size: 25px;
+    margin-left: 130px;
+}
+
+#contenedor-contraseña {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#campo-contraseña{
+    outline: none;
+}
+
+
+#ojo{
+    position: absolute;
+    transform: translateY(-0%);
+    opacity: 0.3;
+    height: 30px;
+    width: 25px;
+    cursor: pointer;
+    transform: translateX(763%);
+    border-radius: 10px;
+}
+
+#ojo {
+    opacity: 0.8;
+}
