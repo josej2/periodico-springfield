@@ -128,8 +128,76 @@ img{
     border-radius: 10px;
 }
 
-#ojo {
+#ojo:hover {
     opacity: 0.8;
+}
+
+
+
+.caja-registro {
+    justify-content: center;
+}
+
+.caja-registro h3{
+    display: block;
+}
+
+.correo-registro label{
+    margin-left: 95px;
+    margin-right: 10px;
+}
+.correo-registro input{
+    margin-right: 80px;
+}
+
+
+.apellido-registro label{
+    margin-left: 68px;
+    margin-right: 10px;
+}
+
+.apellido-registro input{
+    margin-right: 80px;
+}
+
+.nombre-registro label{
+    margin-left: 65px;
+    margin-right: 10px;
+}
+
+.nombre-registro input {
+    margin-right: 78px;
+}
+
+.usuario-registro label {
+    margin-left: 70px;
+    margin-right: 13px;
+}
+
+.usuario-registro input {
+    margin-right: 80px;
+}
+
+.contraseña-registro label{
+    margin-left: 54px;
+    margin-right: 13px;
+}
+
+.contraseña-registro input{
+    margin-right: 80px;
+}
+
+.confirmar-contraseña-registro label{
+    margin-left: -80px;
+    margin-right: 13px;
+}
+
+.confirmar-contraseña-registro input{
+    margin-right: 80px;
+}
+
+#boton-registro {
+    margin-left: 110px;
 }
 
 
@@ -140,10 +208,26 @@ img{
     height: 30px;
     width: 25px;
     cursor: pointer;
-    transform: translateX(763%);
+    transform: translateX(653%);
     border-radius: 10px;
 }
 
-#ojo-contraseña-admin {
+#ojo-contraseña-admin:hover{
     opacity: 0.8;
 }
+
+#ojo-confirmacion-admin{
+    position: absolute;
+    transform: translateY(-0%);
+    opacity: 0.3;
+    height: 30px;
+    width: 25px;
+    cursor: pointer;
+    transform: translateX(653%);
+    border-radius: 10px;
+}
+
+#ojo-confirmacion-admin:hover{
+    opacity: 0.8;
+}
+
