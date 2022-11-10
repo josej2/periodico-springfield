@@ -13,13 +13,34 @@ rutas.get('/agregar-admin',noestalogeado, (req, res) =>
     } 
 )
 
-rutas.post('/agregar-admin',noestalogeado, passport.authenticate( 'registro-local-admin',
-        {
-            successRedirect: '/usuario-agregado',
-            failureRedirect : '/usuario-no-agregado',
-            failureFlash: true
-        },
-    )
+rutas.post('/agregar-admin',
+    noestalogeado,
+    body('nombre')
+    .exists()
+    .isAlpha('en-US', {ignore: ' '}),
+
+    (req, res, next) => 
+    {
+    
+        const errores = validationResult(req);
+
+        if(!errores.isEmpty()){
+            console.log(errores.array()) 
+            res.redirect('/trampa')
+        }
+        else{ 
+            passport.authenticate( 'registro-local-admin',
+                {
+                    successRedirect: '/usuario-agregado',
+                    failureRedirect : '/usuario-no-agregado',
+                    failureFlash: true
+                },
+            )(req, res, next);
+        }
+
+
+    } 
+   
 )
 
 rutas.get('/agregar-columnista',noestalogeado,(req, res) => 
@@ -67,7 +88,9 @@ rutas.get('/trampa', (req, res) =>
     }
 )
 
-rutas.post('/login',estalogeado, 
+rutas.post('/login',
+    
+    estalogeado, 
 
     body('contraseña')
         .exists()
@@ -109,8 +132,6 @@ rutas.get('/cerrar-session',noestalogeado, (req, res, next) =>
         
     } 
 )
-
-
 
 
 
