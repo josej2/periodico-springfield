@@ -22,7 +22,7 @@ conexion.getConnection( (error, conexion_respuesta) => {
                 console.log("Conexion a la base de datos rechaza (contraseña, usuario) incorrectos");
             }   
 
-            console.log("entras al condicional error");
+            console.log("entras al condicional error "+error);
         }
 
         if (conexion_respuesta){

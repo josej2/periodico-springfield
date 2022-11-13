@@ -13,11 +13,23 @@ rutas.get('/agregar-admin',noestalogeado, (req, res) =>
     } 
 )
 
+
 rutas.post('/agregar-admin',
     noestalogeado,
     body('nombre')
     .exists()
     .isAlpha('en-US', {ignore: ' '}),
+    body('apellidos')
+    .exists(),
+    body('correo')
+    .exists()
+    .isEmail(),
+    body('usuario')
+    .exists(),
+    body('campo-contraseña')
+    .exists(),
+    body('password-confirmacion')
+    .exists(),
 
     (req, res, next) => 
     {
