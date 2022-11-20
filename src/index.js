@@ -60,6 +60,7 @@ app.use( (req, res, next)=>
 //rutas 
 app.use( require('./routers/index.js') );
 app.use(require('./routers/autenticacion.js') );
+app.use(require('./routers/autenticacion-columnista.js'))
 app.use(require('./routers/crud.js') );
 
 

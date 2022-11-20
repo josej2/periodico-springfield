@@ -71,23 +71,55 @@ passport.use('login-administrador', new strategy
 
                 const usuariovalido = await encriptador.comparadorpassword(contraseña.trim(), admin.contraseña)
                 if(usuariovalido){
-                    console.log("usuario y contraseña encontrados"+admin.id);
+                    console.log("usuario y contraseña encontrados "+admin.id);
                     return done(null,admin) 
                 }
                 else{
-                    console.log("contraseña incorrecta");
+                    console.log("contraseña incorrecta usuario admin");
                     //done(null, false, req.flash('contraseña incorrecta'));
                     return done(null, false);
                 }
             }
             else{
-                console.log("no existe el usuario");
+                console.log("no existe el usuario administrador");
                 //done(null, false, req.flash('usuario no existe'));
-                done(null, false);
+                return done(null, false);
             }
         }
     )
-) 
+)
+
+passport.use('login-columnista', new strategy
+    (
+        {
+            usernameField : 'usuario',
+            passwordField : 'contraseña',
+            passReqToCallback: true
+        },
+        async (req, usuario, contraseña, done) =>{
+            const arrayconsultas = await conexionmysql.query('Select * from columnistas where usuario =?',[usuario.trim()]);
+
+            if(arrayconsultas.length>0){
+                const columnista = arrayconsultas[0];
+                
+                const usuariovalido = await encriptador.comparadorpassword(contraseña.trim(), columnista.contraseña);
+
+                if(usuariovalido){
+                    console.log("usuario y contraseña encontrados "+columnista.id);
+                    return done(null,columnista)
+                }
+                else{
+                    console.log("Contraseña incorrecta usuario columnista");
+                    return done(null, false);
+                }
+            }
+            else{
+                console.log("Usuario columnista inecistente");
+                return done(null, false);
+            }
+        }
+    )
+)
 
 
 passport.serializeUser ( (usuario, done) =>

@@ -129,7 +129,11 @@ rutas.post('/login',
                 })(req, res, next);
             }
             else if(req.body.tipoLogin =="columnista"){
-                res.send("modulo en produccion")
+                passport.authenticate('login-columnista', {
+                   successRedirect :'/',
+                   failureRedirect : '/',
+                   failureFlash : true 
+                })(req, res, next);
             }
         }
     }
