@@ -20,3 +20,11 @@ Create table columnistas (
     usuario varchar(50) not null,
     contraseña varchar(60) not null
 );
+
+Create table noticias  ( 
+    id int (10) primary key auto_increment not null,
+    id_columnista int (10) not null,
+    titulo varchar (200) not null,
+    descripcion mediumblob  not null,
+    linkimagen longblob  not null
+);

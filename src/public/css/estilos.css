@@ -23,6 +23,11 @@ header{
     align-items: center;
     padding: 10px;
 }
+
+header h2 {
+    color: white;
+}
+
 .logo{
     display: flex;
     align-items: center;

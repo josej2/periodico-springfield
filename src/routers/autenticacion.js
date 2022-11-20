@@ -130,8 +130,8 @@ rutas.post('/login',
             }
             else if(req.body.tipoLogin =="columnista"){
                 passport.authenticate('login-columnista', {
-                   successRedirect :'/',
-                   failureRedirect : '/',
+                   successRedirect :'/vista-columnista',
+                   failureRedirect : '/no-encontrado',
                    failureFlash : true 
                 })(req, res, next);
             }
