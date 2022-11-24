@@ -1,16 +1,17 @@
+
 module.exports = {
-    noestalogeado(req, res, next){
-        if(req.isAuthenticated()){
+    estalogeado(req, res, next) {
+        if(req.isAuthenticated() ){
             console.log("esta autenticado");
             return next();
-            
         }
         else{
+            console.log("trata de entrar sin permisos a asuntos administrativos");
             return res.redirect('/login');
         }
     },
 
-    estalogeado (req, res, next){
+    noestalogeado (req, res, next){
         if(!req.isAuthenticated()){
             console.log("no esta autenticado");
             return next();
@@ -18,6 +19,5 @@ module.exports = {
         else{
             return res.redirect('/vista-admin');
         }
-    }
-    
+    },
 }

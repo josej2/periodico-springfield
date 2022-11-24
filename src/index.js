@@ -1,14 +1,15 @@
+
+//dependencias y modulos
 const express = require('express');
 const morgan =  require('morgan');
 const exhandlebars = require('express-handlebars');
 const path = require('path');
-const session = require('express-session');
 const flash = require('connect-flash');
-const passport = require('passport');
-const MySQLStore = require('express-mysql-session');
 const conexionmysql = require('./basededatos.js');
+const cookieParder = require('cookie-parser')
+const jsonwetoken = require('jsonwebtoken')
 const {database} = require('./claves');
-
+require('dotenv').config();
 
 const app = express();
 
@@ -18,6 +19,7 @@ require('./lib/passport.js')
 //const port = 3200;
 app.set('port', process.env.PORT || 3200);
 app.set('views', path.join(__dirname,'/views'));
+//motor visual
 app.engine('.hbs', exhandlebars.engine({
     defaultLayout: 'raiz',
     layoutsDir: path.join(app.get('views'), 'layouts'),
@@ -32,21 +34,16 @@ app.set('view engine', '.hbs');
 
 //mediadores
 
-app.use(session({
-    secret: 'springfield',
-    resave: false,
-    saveUninitialized: false,
-    store : new MySQLStore(database)
-}));
 
+app.use(cookieParder())
 
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: false}))
 app.use(express.json());
 app.use(flash());
 
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.initialize());
+//app.use(passport.session());
 
 
 //variables globales

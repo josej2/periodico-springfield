@@ -1,7 +1,11 @@
 const passport = require("passport");
 const strategy = require('passport-local').Strategy;
 const conexionmysql = require('../basededatos');
-const encriptador = require('../lib/encriptadores')
+const encriptador = require('../lib/encriptadores');
+const {generarToken, validarToken} = require('../lib/generadoresToken');
+const MySQLStore = require('express-mysql-session');
+const e = require("express");
+
 
 passport.use( 'registro-local-admin', new strategy 
     (
@@ -55,14 +59,15 @@ passport.use( 'registro-local-columnista', new strategy
     )
 );
 
-passport.use('login-administrador', new strategy 
+/*
+passport.use('login-administrador',  new strategy 
     (
         {
             usernameField :'usuario',
             passwordField : 'contraseña',
             passReqToCallback: true
         },
-        async ( req, usuario, contraseña, done) => {
+        async (req, usuario, contraseña, done, ) => {
 
             const arrayconsultas = await conexionmysql.query('select * from administradores where usuario =?',[usuario.trim()]);
             
@@ -71,8 +76,11 @@ passport.use('login-administrador', new strategy
 
                 const usuariovalido = await encriptador.comparadorpassword(contraseña.trim(), admin.contraseña)
                 if(usuariovalido){
-                    console.log("usuario y contraseña encontrados "+admin.id);
-                    return done(null,admin) 
+                    const usuario = {id : admin.id, rol: "admin" }
+                    const tokenaccess = generarToken(usuario);
+                    res.header('autenticacion', tokenaccess)
+                    console.log(req.header['autenticacion']);
+                    return done(null,tokenaccess) 
                 }
                 else{
                     console.log("contraseña incorrecta usuario admin");
@@ -88,6 +96,7 @@ passport.use('login-administrador', new strategy
         }
     )
 )
+*/
 
 passport.use('login-columnista', new strategy
     (

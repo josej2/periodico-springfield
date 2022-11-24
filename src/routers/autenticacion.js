@@ -2,20 +2,19 @@
 const express = require('express');
 const rutas = express.Router();
 const passport = require('passport');
-const { render } = require('timeago.js');
-const {noestalogeado, estalogeado} = require('../lib/validador-login');
 const {body, validationResult} = require('express-validator');
+const conexionmysql = require('../basededatos');
+const encriptador = require('../lib/encriptadores');
+const {verificarperfil} = require('../lib/generadoresToken')
 
-
-rutas.get('/agregar-admin',noestalogeado, (req, res) =>
+rutas.get('/agregar-admin', verificarperfil, (req, res) =>
     {
         res.render('menu_admin/registroadmin')
     } 
 )
 
-
 rutas.post('/agregar-admin',
-    noestalogeado,
+    verificarperfil,
     body('nombre')
     .exists()
     .isAlpha('en-US', {ignore: ' '}),
@@ -55,13 +54,13 @@ rutas.post('/agregar-admin',
    
 )
 
-rutas.get('/agregar-columnista',noestalogeado,(req, res) => 
+rutas.get('/agregar-columnista',verificarperfil,(req, res) => 
     {
         res.render('menu_admin/registrocolumnista.hbs');
     }
 )
 
-rutas.post('/agregar-columnista',noestalogeado, passport.authenticate( 'registro-local-columnista',
+rutas.post('/agregar-columnista', verificarperfil, passport.authenticate( 'registro-local-columnista',
         {
             successRedirect : '/usuario-agregado',
             failureRedirect : '/usuario-no-agregado',
@@ -70,40 +69,39 @@ rutas.post('/agregar-columnista',noestalogeado, passport.authenticate( 'registro
     )
 )
 
-rutas.get('/usuario-agregado',noestalogeado, (req, res) => 
+rutas.get('/usuario-agregado',verificarperfil, (req, res) => 
     {
         res.send('usuario agregado');
     }
 )
 
-rutas.get('/usuario-no-agregado',noestalogeado, (req, res) => 
+rutas.get('/usuario-no-agregado',verificarperfil, (req, res) => 
     {
         res.send('usuario no agregado');
     }
 )
 
-rutas.get('/login',estalogeado, (req, res) => 
+//pendiente de verificacion
+rutas.get('/login', (req, res) => 
     {
         res.render('login/index');
     }
 )
-
-rutas.get('/no-encontrado', estalogeado,(req , res) =>  
+//pendiente de verificacion
+rutas.get('/no-encontrado',(req , res) =>  
     {
         res.send('usuario no encontrado')
     }
 )
-
+//pendiente de verificacion
 rutas.get('/trampa', (req, res) => 
     {
         res.send('Señor elefante eso que usted hizo eso no se hace, has modificado elementos del html')
     }
 )
 
-rutas.post('/login',
-    
-    estalogeado, 
-
+//pendiente de verificaion
+rutas.post('/login',   
     body('contraseña')
         .exists()
         .isLength({min:8})
@@ -111,9 +109,9 @@ rutas.post('/login',
         .isAlphanumeric(),
     body('usuario')
         .exists(),
-    (req, res, next) => 
+    async(req, res, next) => 
     {
-        const errores = validationResult(req);
+        const errores = await validationResult(req, res);
         if(!errores.isEmpty()){
             console.log(errores.array()) 
             res.redirect('/trampa')
@@ -122,34 +120,61 @@ rutas.post('/login',
 
             console.log(req.body.tipoLogin);
             if(req.body.tipoLogin =="administrador"){   
-                passport.authenticate('login-administrador', {
-                    successRedirect : '/vista-admin',
-                    failureRedirect : '/no-encontrado',
-                    failureFlash: true
-                })(req, res, next);
+                
+                const validar = await validaruseradmin(req, res);
+
+                if (validar.estado==true) {
+                    console.log("es verdadera la session");
+                    const option = {
+                        httpOnly: false,
+                        
+                    }
+                    res.cookie("token", validar.token, option)
+                        .redirect('/vista-admin')    
+                }
+                else{
+                    res.redirect('/login')
+                }
+                        
             }
             else if(req.body.tipoLogin =="columnista"){
-                passport.authenticate('login-columnista', {
-                   successRedirect :'/vista-columnista',
-                   failureRedirect : '/no-encontrado',
-                   failureFlash : true 
-                })(req, res, next);
+                
             }
         }
     }
 )
 
-rutas.get('/cerrar-session',noestalogeado, (req, res, next) => 
+rutas.get('/cerrar-session', (req, res, next) => 
     {
-        req.logOut(req.user, error =>{
-            if(error)return next(error);
-            else res.redirect('/login');
-        });
-        
+        res.clearCookie('token')
+            .redirect('/login');
     } 
 )
 
 
+async function validaruseradmin (req, res) {
+    
+        const arrayconsultas = await conexionmysql.query('select * from administradores where usuario =?',[req.body.usuario.trim()]);
+        if( arrayconsultas.length > 0){
+            const admin = arrayconsultas[0];
+    
+            const usuariovalido = await encriptador.comparadorpassword(req.body.contraseña.trim(), admin.contraseña)
+            if(usuariovalido){
+                console.log("usuario y contraseña validos");
+                const usuario = {id : admin.id, rol: "admin" }
+                const tokenaccess = await generarToken(usuario);
+                console.log(tokenaccess);
+                return {estado:true, token:tokenaccess};
+            }
+        else{ console.log("contraseña incorrecta usuario admin");
+              return false;
+        }
+    }
+    else{
+            console.log("no existe el usuario administrador");
+            return false;
+    }
+}
 
 
 module.exports = rutas;
