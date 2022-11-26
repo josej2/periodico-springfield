@@ -1,0 +1,27 @@
+
+<link rel="stylesheet" href="/css/estilosnoticias.css">
+
+<div class="contenedor">
+    <div class="noticias">
+        {{#each noticias}}
+        <a href="">
+            <div class="noticia">
+                <div>
+                    <div>
+                        <h3>
+                            {{titulo}}
+                        </h3>
+                    </div>
+                        
+                    <div class="imagen">
+                        <img src="{{linkimagen}}" alt="">
+                    </div>
+                    <div class="descripcion">
+                        {{descripcion}}
+                    </div>
+                </div>
+            </div>
+        </a>
+        {{/each}}
+    </div>
+</div>

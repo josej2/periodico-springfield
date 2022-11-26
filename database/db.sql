@@ -24,7 +24,8 @@ Create table columnistas (
 Create table noticias  ( 
     id int (10) primary key auto_increment not null,
     id_columnista int (10) not null,
+    rol varchar(14) not null,
     titulo varchar (200) not null,
-    descripcion mediumblob  not null,
-    linkimagen longblob  not null
+    descripcion text  not null,
+    linkimagen text  not null
 );

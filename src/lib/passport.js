@@ -98,6 +98,7 @@ passport.use('login-administrador',  new strategy
 )
 */
 
+/*
 passport.use('login-columnista', new strategy
     (
         {
@@ -129,6 +130,8 @@ passport.use('login-columnista', new strategy
         }
     )
 )
+
+*/
 
 
 passport.serializeUser ( (usuario, done) =>

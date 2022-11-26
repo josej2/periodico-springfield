@@ -5,7 +5,7 @@ const passport = require('passport');
 const {body, validationResult} = require('express-validator');
 const conexionmysql = require('../basededatos');
 const encriptador = require('../lib/encriptadores');
-const {verificarperfil} = require('../lib/generadoresToken')
+const {verificarperfil, generarToken,  validarNoexitenciaSeccion} = require('../lib/generadoresToken')
 
 rutas.get('/agregar-admin', verificarperfil, (req, res) =>
     {
@@ -82,7 +82,7 @@ rutas.get('/usuario-no-agregado',verificarperfil, (req, res) =>
 )
 
 //pendiente de verificacion
-rutas.get('/login', (req, res) => 
+rutas.get('/login',  validarNoexitenciaSeccion, (req, res) => 
     {
         res.render('login/index');
     }
@@ -117,28 +117,25 @@ rutas.post('/login',
             res.redirect('/trampa')
         }
         else{
-
-            console.log(req.body.tipoLogin);
+            const option = { httpOnly: false,}
             if(req.body.tipoLogin =="administrador"){   
                 
                 const validar = await validaruseradmin(req, res);
-
-                if (validar.estado==true) {
-                    console.log("es verdadera la session");
-                    const option = {
-                        httpOnly: false,
-                        
-                    }
-                    res.cookie("token", validar.token, option)
+                if (validar.estado) {
+                    
+                    res .cookie("token", validar.token, option)
                         .redirect('/vista-admin')    
                 }
-                else{
-                    res.redirect('/login')
-                }
-                        
+                else res.send("datos incorrectos") //res.redirect('/login')    
             }
             else if(req.body.tipoLogin =="columnista"){
-                
+                const validar = await validarusecolumnista (req, res);
+                if(validar.estado){
+
+                    res .cookie("token", validar.token, option)
+                        .redirect('/vista-columnista')
+                }
+                else res.send("datos incorrectos")   //res.redirect('/login')
             }
         }
     }
@@ -167,12 +164,38 @@ async function validaruseradmin (req, res) {
                 return {estado:true, token:tokenaccess};
             }
         else{ console.log("contraseña incorrecta usuario admin");
+            
               return false;
         }
     }
     else{
             console.log("no existe el usuario administrador");
             return false;
+    }
+}
+
+async function validarusecolumnista (req, res ){
+    const arrayconsultas = await conexionmysql.query('Select * from columnistas where usuario =?',[req.body.usuario.trim()]);
+
+    if(arrayconsultas.length>0){
+        const columnista = arrayconsultas[0];
+        
+        const usuariovalido = await encriptador.comparadorpassword(req.body.contraseña.trim(), columnista.contraseña);
+
+        if(usuariovalido){
+            console.log("usuario y contraseña encontrados "+columnista.id);
+            const usuario = {id: columnista.id, rol:"columnista"}
+            const tokenaccess = await generarToken (usuario)
+            return {estado: true, token: tokenaccess};
+        }
+        else{
+            console.log("Contraseña incorrecta usuario columnista");
+            return false
+        }
+    }
+    else{
+        console.log("Usuario columnista inecistente");
+        return false;
     }
 }
 

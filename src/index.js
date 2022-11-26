@@ -37,7 +37,9 @@ app.set('view engine', '.hbs');
 
 app.use(cookieParder())
 
+// modulos de desarrollo
 app.use(morgan('dev'));
+//modulos de comunicacion
 app.use(express.urlencoded({extended: false}))
 app.use(express.json());
 app.use(flash());
