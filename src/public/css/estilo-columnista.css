@@ -18,4 +18,5 @@
 .texarea textarea {
     width: 600px;
     height: 300px;
+    padding: 15px;
 }

@@ -1,23 +1,29 @@
 .noticias {
     margin: 100px 20px;
     display: grid;
-    grid-template-columns: repeat(3, 25rem);
+    grid-template-columns: repeat(2, 2fr);
 
+}
+
+.noticias a {
+    color: black;
 }
 
 .noticia {
     border: solid 0.08px;
-    width: 300px;
-    height: 300px;
+    width: 500px;
+    height: 400px;
     margin: 10px;
     padding: 10px;
     overflow: hidden;
+    overflow: scroll;
+    font-size: 1.5em;
 }
 
 .imagen {
-    width: 200px;
-    height: 100px;
-    
+    width: 300px;
+    height: 150px;
+    margin: 10px auto;
 }
 
 .imagen img {

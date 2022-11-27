@@ -1,0 +1,51 @@
+
+<link rel="stylesheet" href="/css/estilo-columnista.css">
+<link rel="stylesheet" href="/css/estilos-eliminar-noticia.css">
+<header>
+        <div class="logo">
+            <h2 class="etiqueta">SRINGFIELD NEWS</h2>
+        </div>
+</header>
+<div class="contenedor">
+
+    <div class="caja-contenedor caja-registro cuadro-creacion">
+        <h2>Eliminar Noticia</h2>
+
+        <form action="/eliminar-noticia" method="post">
+
+            <div class="camposnegros">
+                <input  name="idbusqueda" type="text" placeholder="Ingrese id">
+            </div>
+            <button class="buscar"> Buscar</button>
+        </form>
+
+        <form action="/eliminacion-total" method="post">
+
+            <div class="camposnegros">
+                <label for="">ID Noticia :</label>
+                <input  name="id" type="text" value="{{idnoticia}}">
+            </div>
+            
+            <div class="camposnegros">
+                <label for="">TITULO :</label>
+                <input  name="titulo" type="text" value="{{titulo}}">
+            </div>
+            <label for="">DESCRIPCION :</label>
+            <div class="camposnegros texarea" >
+                    
+                <textarea name="descripcion" cols="30" rows="10"> {{descripcion}}</textarea>
+            </div>
+            <div class="camposnegros" >
+                <label for="">URL imagen</label>
+                <input name="linkimagen" type="text"  value="{{linkimagen}}">
+            </div>
+            
+                <div  class="camposnegros">
+                <button>
+                    Eliminar Noticia
+                </button>
+            </div>
+        </form>
+       
+    </div>
+ </div>
